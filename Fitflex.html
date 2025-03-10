@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitness Companion</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 1rem 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #4CAF50;
+      margin-bottom: 10px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #eee;
+      margin-bottom: 5px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    .tip {
+      background-color: #e7f7e7;
+      padding: 15px;
+      border-left: 5px solid #4CAF50;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fitness Companion</h1>
+    <p>Your daily health & fitness buddy</p>
+  </header>
+
+  <div class="container">
+    
+    <!-- Workout Tracker -->
+    <div class="section">
+      <h2>Workout Tracker</h2>
+      <input type="text" id="workoutInput" placeholder="Enter your workout (e.g., 30 min run)" />
+      <button onclick="addWorkout()">Add Workout</button>
+      <ul id="workoutList"></ul>
+    </div>
+    
+    <!-- BMI Calculator -->
+    <div class="section">
+      <h2>BMI Calculator</h2>
+      <input type="number" id="weight" placeholder="Enter weight in kg" />
+      <input type="number" id="height" placeholder="Enter height in cm" />
+      <button onclick="calculateBMI()">Calculate BMI</button>
+      <p id="bmiResult"></p>
+    </div>
+    
+    <!-- Daily Tip -->
+    <div class="section">
+      <h2>Daily Health Tip</h2>
+      <div class="tip" id="healthTip">
+        Click the button below for a tip!
+      </div>
+      <button onclick="showTip()">Show Tip</button>
+    </div>
+  </div>
+
+  <script>
+    // Workout Tracker
+    function addWorkout() {
+      const input = document.getElementById('workoutInput');
+      const workout = input.value.trim();
+      if (workout === '') {
+        alert('Please enter a workout!');
+        return;
+      }
+      const li = document.createElement('li');
+      li.textContent = workout;
+      document.getElementById('workoutList').appendChild(li);
+      input.value = '';
+    }
+
+    // BMI Calculator
+    function calculateBMI() {
+      const weight = parseFloat(document.getElementById('weight').value);
+      const heightCm = parseFloat(document.getElementById('height').value);
+      if (isNaN(weight) || isNaN(heightCm) || weight <= 0 || heightCm <= 0) {
+        alert('Please enter valid weight and height!');
+        return;
+      }
+      const heightM = heightCm / 100;
+      const bmi = weight / (heightM * heightM);
+      let status = '';
+      if (bmi < 18.5) {
+        status = 'Underweight';
+      } else if (bmi < 24.9) {
+        status = 'Normal weight';
+      } else if (bmi < 29.9) {
+        status = 'Overweight';
+      } else {
+        status = 'Obese';
+      }
+      document.getElementById('bmiResult').innerText = `Your BMI is ${bmi.toFixed(2)} (${status})`;
+    }
+
+    // Health Tips
+    const tips = [
+      "Stay hydrated by drinking at least 8 glasses of water daily.",
+      "Aim for at least 30 minutes of physical activity every day.",
+      "Eat a balanced diet rich in vegetables and lean proteins.",
+      "Get 7-8 hours of quality sleep each night.",
+      "Stretch before and after workouts to prevent injury.",
+      "Limit your intake of processed foods and sugars.",
+      "Take regular breaks from screens to rest your eyes."
+    ];
+
+    function showTip() {
+      const randomIndex = Math.floor(Math.random() * tips.length);
+      document.getElementById('healthTip').innerText = tips[randomIndex];
+    }
+  </script>
+</body>
+</html>
